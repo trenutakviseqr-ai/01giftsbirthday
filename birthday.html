@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sretan rođendan!</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+color:white;
+text-align:center;
+overflow-x:hidden;
+
+background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fcb69f,#f6d365);
+background-size:400% 400%;
+animation:bgMove 18s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* welcome screen */
+
+#welcome{
+position:fixed;
+width:100%;
+height:100%;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+}
+
+#welcome h1{
+font-family:'Playfair Display';
+font-size:40px;
+margin-bottom:30px;
+}
+
+.openBtn{
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:40px;
+cursor:pointer;
+background:white;
+}
+
+.hero{
+padding-top:120px;
+padding-bottom:80px;
+animation:fadeIn 2s ease;
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:3em;
+margin-bottom:10px;
+}
+
+.subtitle{
+font-size:1.3em;
+opacity:0.9;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(30px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.card{
+max-width:700px;
+margin:auto;
+margin-top:40px;
+
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+
+padding:35px;
+border-radius:20px;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+
+.slideshow-container{
+position:relative;
+max-width:600px;
+margin:auto;
+}
+
+.slides{
+display:none;
+width:100%;
+border-radius:15px;
+box-shadow:0 15px 30px rgba(0,0,0,0.4);
+transition:0.4s;
+}
+
+.slides:hover{
+transform:scale(1.03);
+box-shadow:0 0 25px gold;
+}
+
+.prev,.next{
+cursor:pointer;
+position:absolute;
+top:50%;
+padding:12px;
+margin-top:-22px;
+font-size:26px;
+font-weight:bold;
+color:white;
+background:rgba(0,0,0,0.4);
+border-radius:50%;
+user-select:none;
+}
+
+.prev{left:-40px;}
+.next{right:-40px;}
+
+.text{
+margin-top:40px;
+font-size:1.2em;
+line-height:1.8em;
+min-height:120px;
+}
+
+.footer{
+margin-top:60px;
+opacity:0.9;
+font-size:1.1em;
+}
+
+/* particles */
+
+.particle{
+position:fixed;
+width:4px;
+height:4px;
+background:gold;
+border-radius:50%;
+opacity:0.7;
+animation:float 10s linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(100vh);}
+to{transform:translateY(-10vh);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="welcome">
+<h1>🎁 Otvori rođendanski poklon</h1>
+<button class="openBtn" onclick="startExperience()">Otvori</button>
+</div>
+
+<audio id="bgMusic" loop>
+<source src="birthday.mp3" type="audio/mpeg">
+</audio>
+
+<div class="hero">
+
+<h1>Sretan rođendan, Marija ✨</h1>
+
+<p class="subtitle">
+Svaka godina je nova stranica tvoje priče.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="slideshow-container">
+
+<img class="slides" src="photos/01.jpg">
+<img class="slides" src="photos/02.jpg">
+<img class="slides" src="photos/03.jpg">
+<img class="slides" src="photos/04.jpg">
+<img class="slides" src="photos/05.jpg">
+<img class="slides" src="photos/06.jpg">
+<img class="slides" src="photos/07.jpg">
+<img class="slides" src="photos/08.jpg">
+<img class="slides" src="photos/09.jpg">
+<img class="slides" src="photos/10.jpg">
+
+<a class="prev" onclick="plusSlides(-1)">❮</a>
+<a class="next" onclick="plusSlides(1)">❯</a>
+
+</div>
+
+<p class="text" id="typing"></p>
+
+</div>
+
+<div class="footer">
+Stvoreno s ljubavlju 🤍
+</div>
+
+<script>
+
+/* start */
+
+function startExperience(){
+
+document.getElementById("welcome").style.display="none";
+
+startMusic();
+createParticles();
+
+}
+
+/* music fade in */
+
+function startMusic(){
+
+const music=document.getElementById("bgMusic");
+
+music.volume=0;
+
+music.play();
+
+let vol=0;
+
+let fade=setInterval(function(){
+
+if(vol<1){
+vol+=0.05;
+music.volume=vol;
+}else{
+clearInterval(fade);
+}
+
+},200);
+
+}
+
+/* slideshow */
+
+let slideIndex=0;
+let slides=document.getElementsByClassName("slides");
+
+function showSlide(n){
+
+if(n>=slides.length){slideIndex=0;}
+if(n<0){slideIndex=slides.length-1;}
+
+for(let i=0;i<slides.length;i++){
+slides[i].style.display="none";
+}
+
+slides[slideIndex].style.display="block";
+}
+
+function plusSlides(n){
+slideIndex+=n;
+showSlide(slideIndex);
+}
+
+function autoSlides(){
+slideIndex++;
+showSlide(slideIndex);
+}
+
+showSlide(slideIndex);
+setInterval(autoSlides,4000);
+
+/* typing text */
+
+const message="Kažu da slike govore više od riječi... Zato neka ti ove uspomene pokažu koliko je tvoj život već sada priča vrijedna divljenja. Sretan rođendan ✨";
+
+let i=0;
+
+function typing(){
+
+if(i<message.length){
+
+document.getElementById("typing").innerHTML+=message.charAt(i);
+
+i++;
+
+setTimeout(typing,40);
+
+}
+
+}
+
+typing();
+
+/* particles */
+
+function createParticles(){
+
+for(let i=0;i<40;i++){
+
+let p=document.createElement("div");
+
+p.className="particle";
+
+p.style.left=Math.random()*100+"vw";
+
+p.style.animationDuration=(5+Math.random()*10)+"s";
+
+document.body.appendChild(p);
+
+}
+
+}
+
+/* swipe support */
+
+let startX=0;
+
+document.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
+});
+
+document.addEventListener("touchend",e=>{
+
+let endX=e.changedTouches[0].clientX;
+
+if(startX-endX>50) plusSlides(1);
+
+if(endX-startX>50) plusSlides(-1);
+
+});
+
+</script>
+
+</body>
+</html>
